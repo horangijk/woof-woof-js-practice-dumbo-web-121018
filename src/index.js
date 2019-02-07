@@ -36,13 +36,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
         // dogInfo.append(dogButton)
         dogInfo.innerHTML = `<img src=${pup.image}>
         <h2>${pup.name}</h2>
-        <button class="goodBoy"></button>`
-        dogButton = dogInfo.querySelector('.goodBoy')
-        console.log(dogButton)
+        <button class="good-boy"></button>`
+        dogButton = dogInfo.querySelector('.good-boy')
+        // console.log(dogButton)
         if (pup.isGoodDog) {
-        dogButton.innerText = 'Good Dog!'
-        } else {
         dogButton.innerText = 'Bad Dog!'
+        } else {
+        dogButton.innerText = 'Good Dog!'
         }
       })
     }
@@ -52,26 +52,30 @@ document.addEventListener("DOMContentLoaded", ()=>{
   //text should change from Good to Bad or Bad to Good and be updated to the database
   //(pessimistically render)
   dogInfo.addEventListener('click', e => {
-    console.log(e.target)
+    if(e.target.classList.contains('good-boy')){
+      fetch(`http://localhost:3000/pups/${e.target.dataset.id}`
+        .then(res => res.json())
+        .then(pup => {
     fetch(`http://localhost:3000/pups/${e.target.dataset.id}`, {
       method: 'PATCH',
       header: {
         'Content-Type': 'application/json'
-      }
-      // body: JSON.stringify(
-      //   {
-      //   isGoodDog: !pup.isGoodDog
-      // })
+      },
+      body: JSON.stringify(
+        {
+        isGoodDog: !pup.isGoodDog
+      })
     })
     .then(res => res.json())
     .then(pup => {
-      if (pup.isGoodDog) {
-      dogButton.innerText = 'Bad Dog!'
-      } else {
-      dogButton.innerText = 'Good Dog!'
-      }
+      // if (pup.isGoodDog) {
+      // dogButton.innerText = 'Bad Dog!'
+      // } else {
+      // dogButton.innerText = 'Good Dog!'
+      // }
     })
-
+    }))
+    }
 
   })
 })//DOMContentLoaded
