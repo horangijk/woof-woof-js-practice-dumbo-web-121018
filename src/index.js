@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         // dogInfo.append(dogButton)
         dogInfo.innerHTML = `<img src=${pup.image}>
         <h2>${pup.name}</h2>
-        <button class="good-boy"></button>`
+        <button class="good-boy" data-id="${pup.id}"></button>`
         dogButton = dogInfo.querySelector('.good-boy')
         // console.log(dogButton)
         if (pup.isGoodDog) {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   //(pessimistically render)
   dogInfo.addEventListener('click', e => {
     if(e.target.classList.contains('good-boy')){
-      fetch(`http://localhost:3000/pups/${e.target.dataset.id}`
+      fetch(`http://localhost:3000/pups/${e.target.dataset.id}`)
         .then(res => res.json())
         .then(pup => {
     fetch(`http://localhost:3000/pups/${e.target.dataset.id}`, {
@@ -68,13 +68,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
     })
     .then(res => res.json())
     .then(pup => {
-      // if (pup.isGoodDog) {
-      // dogButton.innerText = 'Bad Dog!'
-      // } else {
-      // dogButton.innerText = 'Good Dog!'
-      // }
+      if (pup.isGoodDog) {
+      dogButton.innerText = 'Bad Dog!'
+      } else {
+      dogButton.innerText = 'Good Dog!'
+      }
     })
-    }))
+    })
     }
 
   })
