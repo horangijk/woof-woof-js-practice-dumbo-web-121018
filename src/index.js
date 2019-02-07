@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", ()=>{
   const dogBar = document.querySelector('#dog-bar')
   let span;
+  let dogButton;
   const dogInfo = document.querySelector('#dog-info')
   fetch('http://localhost:3000/pups')
   .then(res => res.json())
@@ -36,8 +37,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
         dogInfo.innerHTML = `<img src=${pup.image}>
         <h2>${pup.name}</h2>
         <button class="goodBoy"></button>`
-        const dogButton = dogInfo.querySelector('.goodBoy')
-
+        dogButton = dogInfo.querySelector('.goodBoy')
+        console.log(dogButton)
         if (pup.isGoodDog) {
         dogButton.innerText = 'Good Dog!'
         } else {
@@ -51,16 +52,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
   //text should change from Good to Bad or Bad to Good and be updated to the database
   //(pessimistically render)
   dogInfo.addEventListener('click', e => {
-    // console.log(e.target)
+    console.log(e.target)
     fetch(`http://localhost:3000/pups/${e.target.dataset.id}`, {
       method: 'PATCH',
       header: {
         'Content-Type': 'application/json'
       }
-      body: JSON.stringify(
-        {
-        isGoodDog: !pup.isGoodDog
-      })
+      // body: JSON.stringify(
+      //   {
+      //   isGoodDog: !pup.isGoodDog
+      // })
     })
     .then(res => res.json())
     .then(pup => {
